@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Quote } from "../quote.interface";
+import {QuoteService} from "../quote.service";
+import {Response} from "@angular/http";
 
 @Component({
   selector: 'app-quotes',
@@ -6,10 +9,18 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./quotes.component.css']
 })
 export class QuotesComponent implements OnInit {
-
-  constructor() { }
+  quotes: Quote[];
+  constructor(private quoteService: QuoteService) { }
 
   ngOnInit() {
+  }
+
+  onGetQuotes(){
+    this.quoteService.getQuotes()
+        .subscribe(
+            (quotes: Quote[]) => this.quotes = quotes,
+            (error: Response) => console.log(error)
+        );
   }
 
 }
